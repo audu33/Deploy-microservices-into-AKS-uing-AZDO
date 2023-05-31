@@ -32,16 +32,12 @@ kubectl logs -f $(kubectl get po -n kube-system | egrep -o 'aci-connector-linux-
 - Deploy kubernetes workloads and see if the docker image got pulled automatically from ACR we have created. 
 
 
-[![Image](https://stacksimplify.com/course-images/azure-kubernetes-service-and-acr.png "Azure AKS Kubernetes - Masterclass")](https://stacksimplify.com/course-images/azure-kubernetes-service-and-acr.png)
-
-[![Image](https://stacksimplify.com/course-images/azure-container-registry-pricing-tiers.png "Azure AKS Kubernetes - Masterclass")](https://stacksimplify.com/course-images/azure-container-registry-pricing-tiers.png)
-
 ## Step-02: Create Azure Container Registry
 - Go to Services -> Container Registries
 - Click on **Add**
-- Subscription: StackSimplify-Paid-Subsciption
-- Resource Group: aks-rg2
-- Registry Name: acrforaksdemo2   (NAME should be unique across Azure Cloud)
+- Subscription: MY SUBSCRIPTION
+- Resource Group: aks-rg1
+- Registry Name: acrforaksdemo7   (NAME should be unique across Azure Cloud)
 - Location: Central US
 - SKU: Basic  (Pricing Note: $0.167 per day)
 - Click on **Review + Create**
@@ -113,14 +109,14 @@ docker push $ACR_REGISTRY/$ACR_NAMESPACE/$ACR_IMAGE_NAME:$ACR_IMAGE_TAG
 ## Step-05: Configure ACR integration for existing AKS clusters
 ```
 #Set ACR NAME
-export ACR_NAME=acrforaksdemo2
+export ACR_NAME=acrforaksdemo7
 echo $ACR_NAME
 
 # Template
 az aks update -n myAKSCluster -g myResourceGroup --attach-acr <acr-name>
 
 # Replace Cluster, Resource Group and ACR Repo Name
-az aks update -n aksdemo2 -g aks-rg2 --attach-acr $ACR_NAME
+az aks update -n aksdemo1 -g aks-rg1 --attach-acr $ACR_NAME
 ```
 
 
@@ -163,11 +159,11 @@ kubectl delete -f kube-manifests/
 ## Step-08: Detach ACR from AKS Cluster (Optional)
 ```
 #Set ACR NAME
-export ACR_NAME=acrforaksdemo2
+export ACR_NAME=acrforaksdemo7
 echo $ACR_NAME
 
 # Detach ACR with AKS Cluster
-az aks update -n aksdemo2 -g aks-rg2 --detach-acr $ACR_NAME
+az aks update -n aksdemo1 -g aks-rg1 --detach-acr $ACR_NAME
 
 # Delete ACR Repository
 Go To Services -> Container Registries -> acrforaksdemo2 -> Delete it
